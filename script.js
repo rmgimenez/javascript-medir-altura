@@ -30,5 +30,5 @@ function onOrientationChange(event) {
   const height = Math.tan((angle * Math.PI) / 180) * distancia;
 
   document.getElementById('heightInfo').innerHTML =
-    height.toFixed(1) + ' m (' + angle.toFixed(1) + '&deg;';
+    height.toFixed(1) + ' m (' + angle.toFixed(1) + '&deg;)';
 }
