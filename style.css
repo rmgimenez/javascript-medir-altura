@@ -1,0 +1,42 @@
+body {
+  margin: 0;
+  text-align: center;
+  overflow: hidden;
+  font-size: 25px;
+  font-family: Arial, Helvetica, sans-serif;
+  color: white;
+  text-shadow: 0 0 4px #000, 0 0 4px #000;
+  background-color: #b6b6b6;
+}
+
+#mySlider {
+  appearance: none;
+  width: 90%;
+  height: 35px;
+  background: #47f;
+  margin-top: 35px;
+}
+
+#mySlider::-webkit-slider-thumb {
+  appearance: none;
+  width: 35px;
+  height: 35px;
+  background: white;
+}
+
+video {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+}
+
+#heightInfo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -100%);
+  border-bottom: 3px solid white;
+  width: 100%;
+}
