@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, user-scalable=no" />
@@ -8,9 +8,43 @@
     <script src="script.js"></script>
   </head>
   <body onload="main()">
-    <input id="mySlider" type="range" min="1" max="50" value="20" />
-    <div id="myLabel"></div>
-    <div id="heightInfo"></div>
-    <video id="myVideo"></video>
+    <div id="app">
+      <div id="toolbar">
+        <select id="modeSelect">
+          <option value="gyroscope">Gyroscope</option>
+          <option value="manual">Manual</option>
+          <option value="two-tap">Dois Toques</option>
+        </select>
+      </div>
+
+      <div id="cameraContainer">
+        <video id="myVideo"></video>
+        <canvas id="overlay"></canvas>
+        <div id="heightLine"></div>
+        <div id="heightLineLabel">0.0 m</div>
+      </div>
+
+      <div id="controls">
+        <div id="controlsLeft">
+          <label>Distância: <span id="distLabel">20</span> m</label>
+          <input id="mySlider" type="range" min="1" max="100" value="20" />
+          <div id="manualAngleRow" class="hidden">
+            <label>Ângulo: <span id="angleLabel">0</span>°</label>
+            <input id="angleSlider" type="range" min="0" max="90" value="0" />
+          </div>
+        </div>
+        <div id="controlsRight">
+          <div id="twoTapRow" class="hidden">
+            <button id="btnLockBase">1. Travar base</button>
+            <button id="btnLockTop">2. Travar topo</button>
+            <button id="btnReset">Reiniciar</button>
+          </div>
+          <div id="resultBox">
+            <span id="heightInfo">0.0 m</span>
+            <span id="angleInfo">(0.0°)</span>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
