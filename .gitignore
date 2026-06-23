@@ -1,0 +1,40 @@
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Node (opencode workspace)
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+pnpm-debug.log
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Env / logs
+.env
+.env.local
+*.log
+
+# Build artifacts
+dist/
+build/
+*.zip
+*.tar.gz
+
+# Test / coverage
+coverage/
+.nyc_output/
+
+# Source/regen assets (PNG versionados são os canônicos; SVG + script ficam locais)
+icon-source.svg
+build_icons.py

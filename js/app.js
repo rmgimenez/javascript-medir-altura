@@ -7,8 +7,36 @@ import { capturePhoto, renderGallery } from './gallery.js';
 
 function registerSW() {
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js');
+    navigator.serviceWorker.register('sw.js').then(function (reg) {
+      // Detecta SW novo e força reload para pegar a versão atualizada.
+      reg.addEventListener('updatefound', function () {
+        var sw = reg.installing;
+        if (!sw) return;
+        sw.addEventListener('statechange', function () {
+          if (sw.state === 'installed' && navigator.serviceWorker.controller) {
+            // SW novo instalado. Mostra um toast discreto e oferece recarregar.
+            showUpdateToast();
+          }
+        });
+      });
+    }).catch(function () { /* SW falhou, app continua sem offline */ });
   }
+}
+
+function showUpdateToast() {
+  if (document.getElementById('updateToast')) return;
+  var toast = document.createElement('div');
+  toast.id = 'updateToast';
+  toast.className = 'update-toast';
+  toast.innerHTML =
+    '<span>Atualização disponível.</span>' +
+    '<button type="button" id="updateToastBtn">Recarregar</button>';
+  document.body.appendChild(toast);
+  document.getElementById('updateToastBtn').addEventListener('click', function () {
+    window.location.reload();
+  });
+  // Auto-recarrega depois de 30s se o usuário não interagir
+  setTimeout(function () { window.location.reload(); }, 30000);
 }
 
 function main() {

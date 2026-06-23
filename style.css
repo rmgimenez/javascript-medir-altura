@@ -404,3 +404,89 @@ body {
 .hidden {
   display: none !important;
 }
+
+/* Camera fallback (exibido quando getUserMedia falha) */
+.camera-fallback {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 10, 10, 0.92);
+  z-index: 8;
+  padding: 16px;
+}
+
+.camera-fallback-box {
+  max-width: 360px;
+  text-align: center;
+  color: white;
+}
+
+.camera-fallback-box h3 {
+  margin: 0 0 12px;
+  font-size: 20px;
+  color: #ff7474;
+}
+
+.camera-fallback-box p {
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0 0 10px;
+  opacity: 0.9;
+}
+
+.camera-fallback-hint {
+  opacity: 0.7 !important;
+  font-size: 13px !important;
+}
+
+.camera-fallback-btn {
+  margin-top: 14px;
+  padding: 10px 20px;
+  font-size: 15px;
+  border: none;
+  border-radius: 8px;
+  background: #47f;
+  color: white;
+  cursor: pointer;
+}
+
+.camera-fallback-btn:active {
+  background: #25d;
+}
+
+/* Update toast (SW novo detectado) */
+.update-toast {
+  position: fixed;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  background: #222;
+  color: white;
+  padding: 12px 16px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 14px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  border: 1px solid #444;
+}
+
+.update-toast button {
+  padding: 6px 14px;
+  font-size: 13px;
+  border: none;
+  border-radius: 6px;
+  background: #47f;
+  color: white;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.update-toast button:active {
+  background: #25d;
+}

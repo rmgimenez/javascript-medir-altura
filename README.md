@@ -66,10 +66,24 @@ No modo **Gyroscope**, o navegador pode pedir permissão para o sensor de movime
 ### Directory Structure
 
 ```
-├── index.html      # Estrutura da página e elementos da UI
-├── style.css       # Estilos visuais, layout responsivo
-├── script.js       # Lógica da aplicação, 3 modos de operação
-└── README.md       # Esta documentação
+├── index.html         # Estrutura da página e elementos da UI
+├── style.css          # Estilos visuais, layout responsivo
+├── manifest.json      # Manifesto PWA (ícones, display, theme)
+├── sw.js              # Service Worker (offline + cache versionado)
+├── icon-192.png       # Ícone PWA 192×192
+├── icon-512.png       # Ícone PWA 512×512
+├── icon-source.svg    # Fonte vetorial dos ícones (regera via build_icons.py)
+├── build_icons.py     # Script utilitário para regerar os PNGs a partir do SVG
+├── js/
+│   ├── app.js         # Bootstrap, listeners, registro do SW
+│   ├── state.js       # Estado global + cache de elementos DOM
+│   ├── camera.js      # getUserMedia + fallback amigável
+│   ├── overlay.js     # Canvas: crosshair (mira) sobre vídeo
+│   ├── measurement.js # Cálculo trigonométrico + 3 modos
+│   ├── calibration.js # Calibração contra objeto conhecido (localStorage)
+│   ├── storage.js     # IndexedDB: persistência das fotos
+│   └── gallery.js     # Captura (foto + overlay) + galeria
+└── README.md          # Esta documentação
 ```
 
 ### How the Math Works
@@ -94,7 +108,7 @@ O **ângulo** é obtido do gyroscope do dispositivo (ângulo de inclinação ao 
 
 ### Key Components
 
-**State centralizado** (`script.js:1`):
+**State centralizado** (`js/state.js:1`):
 
 ```js
 const state = {
@@ -163,14 +177,35 @@ Por ser uma aplicação 100% frontend sem dependências, os testes são manuais:
 3. **Teste de precisão**: Medir um objeto de altura conhecida, comparar resultado
 4. **Teste cross-browser**: Chrome, Firefox, Safari, Edge
 5. **Teste de responsividade**: Portrait e landscape, diferentes tamanhos de tela
+6. **Teste offline**: DevTools → Network → Offline, recarregar, app deve funcionar
 
 ### Casos de borda verificados
 
 - **Ângulo negativo** → clamped para 0
 - **Sem gyroscope** → fallback para modo Manual
-- **Câmera negada** → fundo escuro, app continua funcional
+- **Câmera negada / indisponível** → overlay amigável com mensagem específica do erro e botão "Tentar novamente"
 - **Dois Toques sem base** → bloqueia trava do topo
 - **Resize da janela** → crosshair é redesenhado
+- **SW desatualizado** → toast oferece recarregar pra pegar a versão nova
+
+## Regenerar ícones
+
+Os ícones são gerados a partir de `icon-source.svg` via Pillow:
+
+```bash
+pip install Pillow
+python build_icons.py
+```
+
+Edite o SVG e rode o script para atualizar `icon-192.png` e `icon-512.png`.
+
+## Versionamento de cache
+
+O Service Worker usa a constante `BUILD_VERSION` em `sw.js` como chave do cache (`medir-altura-<versão>`). Para forçar todos os usuários a receberem a próxima versão:
+
+1. Edite `BUILD_VERSION` em `sw.js` (ex: `'2026-06-24'`)
+2. Faça commit e push
+3. O SW novo apaga caches antigos via `activate`, instala o novo, mostra um toast "Atualização disponível" e recarrega automaticamente após 30s
 
 ## Deployment
 
@@ -187,7 +222,7 @@ git push origin main
 
 ### Qualquer servidor estático
 
-Copie os 3 arquivos (`index.html`, `style.css`, `script.js`) para qualquer servidor estático:
+Copie a pasta inteira (`index.html`, `style.css`, `js/`, `manifest.json`, `sw.js`, `icon-*.png`) para qualquer servidor estático:
 
 - Netlify (drag & drop)
 - Vercel
