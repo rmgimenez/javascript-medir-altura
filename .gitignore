@@ -38,3 +38,11 @@ coverage/
 # Source/regen assets (PNG versionados são os canônicos; SVG + script ficam locais)
 icon-source.svg
 build_icons.py
+
+# Claude Code local (settings com env vars e endpoints, não commitar)
+.claude/settings.local.json
+.env
+.env.local
+
+# Hermes / agent temp dirs
+.hermes-tmp.*/
